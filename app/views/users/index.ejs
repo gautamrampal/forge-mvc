@@ -1,0 +1,122 @@
+<%
+  // Every pagination link has to carry the current search + filter, or clicking "page 2"
+  // silently resets them and the user loses their place.
+  function pageUrl(p) {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (filterStatus) params.set('status', filterStatus);
+    params.set('page', p);
+    return '/users?' + params.toString();
+  }
+  const hasFilters = Boolean(q || filterStatus);
+%>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+  <h4 class="mb-0">Users <span class="badge text-bg-secondary"><%= total %></span></h4>
+  <a href="/users/create" class="btn btn-primary btn-sm"><i class="bi bi-plus-lg me-1"></i>New user</a>
+</div>
+
+<!-- GET, not POST: search results should be linkable, shareable and back-button friendly.
+     A GET form also needs no CSRF token, since it changes nothing. -->
+<form method="GET" action="/users" class="row g-2 mb-3">
+  <div class="col-12 col-sm-5 col-md-4">
+    <div class="input-group input-group-sm">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="search" name="q" class="form-control" placeholder="Search username…"
+             value="<%= q %>" aria-label="Search users">
+    </div>
+  </div>
+  <div class="col-6 col-sm-3 col-md-2">
+    <select name="status" class="form-select form-select-sm" aria-label="Filter by status">
+      <option value="">All statuses</option>
+      <option value="active" <%= filterStatus === 'active' ? 'selected' : '' %>>Active</option>
+      <option value="inactive" <%= filterStatus === 'inactive' ? 'selected' : '' %>>Inactive</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-sm btn-outline-primary">Search</button>
+  </div>
+  <% if (hasFilters) { %>
+    <div class="col-auto"><a href="/users" class="btn btn-sm btn-outline-secondary">Clear</a></div>
+  <% } %>
+</form>
+
+<% if (hasFilters) { %>
+  <p class="text-muted small">
+    <%= total %> result<%= total === 1 ? '' : 's' %>
+    <% if (q) { %> for “<strong><%= q %></strong>”<% } %>
+    <% if (filterStatus) { %> with status <strong><%= filterStatus %></strong><% } %>
+  </p>
+<% } %>
+
+<% if (!rows.length) { %>
+  <div class="card"><div class="card-body text-center text-muted py-5">
+    <% if (hasFilters) { %>
+      <!-- "Nothing matched your search" is a different situation from "you have no users",
+           and needs a different way out. Offering "create a user" here would be wrong. -->
+      <p class="mb-3">No users match your search.</p>
+      <a href="/users" class="btn btn-outline-secondary btn-sm">Clear search</a>
+    <% } else { %>
+      <p class="mb-3">No users yet.</p>
+      <a href="/users/create" class="btn btn-primary btn-sm">Create a user</a>
+    <% } %>
+  </div></div>
+<% } else { %>
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0 align-middle">
+        <thead class="table-light">
+          <tr><th>Username</th><th>Status</th><th>Created</th><th class="text-end">Actions</th></tr>
+        </thead>
+        <tbody>
+          <% rows.forEach(function (record) { %>
+            <tr>
+              <td>
+                <a href="/users/<%= record.id %>"><%= record.username %></a>
+                <% if (currentUser && String(currentUser.id) === String(record.id)) { %>
+                  <span class="badge text-bg-info ms-1">you</span>
+                <% } %>
+              </td>
+              <td>
+                <span class="badge <%= record.status === 'active' ? 'text-bg-success' : 'text-bg-secondary' %>">
+                  <%= record.status %>
+                </span>
+              </td>
+              <td class="small text-muted"><%= record.created_at %></td>
+              <td class="text-end">
+                <a href="/users/<%= record.id %>/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+                <% if (!currentUser || String(currentUser.id) !== String(record.id)) { %>
+                  <form method="POST" action="/users/<%= record.id %>" class="d-inline"
+                        onsubmit="return confirm('Delete user &quot;<%= record.username %>&quot;?');">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                  </form>
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <% if (totalPages > 1) { %>
+    <nav class="mt-3" aria-label="Pagination">
+      <ul class="pagination pagination-sm mb-0">
+        <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+          <a class="page-link" href="<%= pageUrl(page - 1) %>">Previous</a>
+        </li>
+        <% for (let p = 1; p <= totalPages; p++) { %>
+          <li class="page-item <%= p === page ? 'active' : '' %>">
+            <a class="page-link" href="<%= pageUrl(p) %>"><%= p %></a>
+          </li>
+        <% } %>
+        <li class="page-item <%= page >= totalPages ? 'disabled' : '' %>">
+          <a class="page-link" href="<%= pageUrl(page + 1) %>">Next</a>
+        </li>
+      </ul>
+    </nav>
+  <% } %>
+  <p class="text-muted small mt-2">Page <%= page %> of <%= totalPages %> · <%= total %> user(s)</p>
+<% } %>

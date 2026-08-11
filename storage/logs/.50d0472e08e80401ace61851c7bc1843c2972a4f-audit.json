@@ -1,0 +1,35 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "D:\\projects\\forge-mvc\\storage\\logs\\.50d0472e08e80401ace61851c7bc1843c2972a4f-audit.json",
+    "files": [
+        {
+            "date": 1786085179343,
+            "name": "D:\\projects\\forge-mvc\\storage\\logs\\app-2026-08-07.log",
+            "hash": "ad0dbdc49f6d60d3a4633685f3ec39b0cfe494753a1405e9fa416b2c8020da95"
+        },
+        {
+            "date": 1786127404421,
+            "name": "D:\\projects\\forge-mvc\\storage\\logs\\app-2026-08-08.log",
+            "hash": "db7c021379d0eea2310688e303e2045a9fefc879800480fed86acf3091120c19"
+        },
+        {
+            "date": 1786258774205,
+            "name": "D:\\projects\\forge-mvc\\storage\\logs\\app-2026-08-09.log",
+            "hash": "00830188840e18e951d09b5d4ca8f3273fa6db5fad2bf6314da7e43bb0c28d6f"
+        },
+        {
+            "date": 1786345183600,
+            "name": "D:\\projects\\forge-mvc\\storage\\logs\\app-2026-08-10.log",
+            "hash": "2c2301b43544ce135b9611d7989d667e790ffea376dc884a20fb2cca1ae0a693"
+        },
+        {
+            "date": 1786426493595,
+            "name": "D:\\projects\\forge-mvc\\storage\\logs\\app-2026-08-11.log",
+            "hash": "886271fc21fd708e7e48a71b4f37c73d6c0ad2c4f653a74704991f50897fed42"
+        }
+    ],
+    "hashType": "sha256"
+}

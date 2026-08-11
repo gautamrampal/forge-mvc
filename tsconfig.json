@@ -1,0 +1,16 @@
+{
+  "//": "Editor/type-checking only. Nothing is compiled ahead of time — core/views/tsxEngine.js transpiles .tsx at runtime with esbuild. Run `npm run type-check` to validate your views.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "allowJs": false
+  },
+  "include": ["app/views-tsx/**/*"]
+}

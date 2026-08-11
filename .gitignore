@@ -1,0 +1,14 @@
+node_modules/
+.env
+storage/logs/*.log
+storage/uploads/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# Generated — regenerate with `npm run postman`. Commit it only if your team
+# imports it from the repo rather than running the generator themselves.
+# postman_collection.json

@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.env
+storage/logs
+storage/uploads
+tests
+test-results
+playwright-report
+*.md
+Dockerfile
+.dockerignore
+postman_collection.json

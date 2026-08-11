@@ -1,0 +1,39 @@
+<%
+  const isSelf = currentUser && String(currentUser.id) === String(record.id);
+%>
+<div class="d-flex flex-wrap justify-content-between align-items-start mb-3 gap-2">
+  <div>
+    <h4 class="mb-1">
+      <%= record.username %>
+      <span class="badge <%= record.status === 'active' ? 'text-bg-success' : 'text-bg-secondary' %>">
+        <%= record.status %>
+      </span>
+      <% if (isSelf) { %><span class="badge text-bg-info">you</span><% } %>
+    </h4>
+    <div class="text-muted small">User #<%= record.id %></div>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="/users/<%= record.id %>/edit" class="btn btn-sm btn-outline-secondary">Edit</a>
+    <% if (!isSelf) { %>
+      <form method="POST" action="/users/<%= record.id %>"
+            onsubmit="return confirm('Delete user &quot;<%= record.username %>&quot;?');">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="hidden" name="_method" value="DELETE">
+        <button class="btn btn-sm btn-outline-danger">Delete</button>
+      </form>
+    <% } %>
+  </div>
+</div>
+
+<div class="card" style="max-width: 560px;"><div class="card-body">
+  <dl class="row mb-0">
+    <dt class="col-sm-4">Username</dt><dd class="col-sm-8"><%= record.username %></dd>
+    <dt class="col-sm-4">Status</dt><dd class="col-sm-8"><%= record.status %></dd>
+    <dt class="col-sm-4">Created</dt><dd class="col-sm-8"><%= record.created_at %></dd>
+    <dt class="col-sm-4">Updated</dt><dd class="col-sm-8"><%= record.updated_at %></dd>
+  </dl>
+  <!-- Note what is NOT here: the password. User.publicFields() strips it before the record
+       ever reaches a view, so it can't leak into rendered HTML by accident. -->
+</div></div>
+
+<a href="/users" class="btn btn-sm btn-outline-secondary mt-3">Back to list</a>

@@ -1,0 +1,62 @@
+{
+  "name": "forge-mvc",
+  "version": "1.0.0",
+  "description": "A database-agnostic Node.js MVC/REST framework — extracted from a production ticket-portal build.",
+  "main": "server.js",
+  "bin": {
+    "forge": "./bin/forge.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "migrate": "node database/migrate.js",
+    "seed": "node database/seeds/seed.js",
+    "make": "node bin/forge.js",
+    "type-check": "tsc --noEmit",
+    "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\"",
+    "test:unit": "node --test \"tests/unit/*.test.js\"",
+    "test:integration": "node --test --test-concurrency=1 \"tests/integration/*.test.js\"",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "postman": "node bin/forge.js make:postman",
+    "practice": "node practice/run-all.js",
+    "practice:verify": "node practice/verify.js",
+    "practice:exercises": "node practice/exercises.js",
+    "practice:solutions": "node practice/exercises.solutions.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "esbuild": "^0.28.1",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-mysql-session": "^3.0.3",
+    "express-rate-limit": "^7.4.0",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.2.0",
+    "file-type": "^16.5.4",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "method-override": "^3.0.0",
+    "mongodb": "^6.9.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.3",
+    "nodemailer": "^6.9.15",
+    "pg": "^8.13.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "winston": "^3.14.2",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "nodemon": "^3.1.7",
+    "supertest": "^7.2.2",
+    "typescript": "^7.0.2"
+  }
+}
