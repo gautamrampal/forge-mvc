@@ -368,7 +368,7 @@ untouched. What *doesn't* carry over automatically:
 |---|---|
 | **Raw SQL** (`Model.raw`, `this.db.query`) | Rewrite per dialect, or avoid it in code you want portable. Throws a clear error under MongoDB. |
 | **Migrations** | `database/migrations/*.sql` is MySQL DDL. For Postgres, put equivalent files in `database/migrations/postgres/`. MongoDB needs no migrations — collections are created on first insert. |
-| **Session store** | MySQL ships with a persistent store. For Postgres/Mongo, install `connect-pg-simple` or `connect-mongo` and swap the store in `core/session.js` — otherwise you get an in-memory store that logs a warning and loses sessions on restart. |
+| **Session store** | Nothing, if `SESSION_STORE=db` (the default): all three drivers ship a persistent store (`express-mysql-session` / `connect-pg-simple` / `connect-mongo`) and the switch follows `DB_DRIVER`. See "Session storage" in section 12 for the other backends. |
 | **`id` type** | Mongo IDs are 24-char hex strings, not integers. The adapter normalizes `_id` ⇄ `id` for you, but don't write `parseInt(id)` anywhere. |
 
 Postgres DDL differs from MySQL in three predictable ways:
@@ -736,6 +736,29 @@ req.session.regenerate((err) => {          // regenerate = prevents session fixa
 
 Passwords go through `core/helpers/hash.js` (bcrypt, cost 12). Never store plaintext, never log
 them.
+
+### Session storage
+
+Where sessions live is a one-line `.env` switch (`SESSION_STORE`), same idea as Laravel's
+`SESSION_DRIVER`. All backends are wired up in `core/session.js`:
+
+| Value | Backend | When to use it |
+|---|---|---|
+| `db` *(default)* | Whatever `DB_DRIVER` points at — a `sessions` table (MySQL/Postgres, created automatically) or collection (Mongo) | Zero extra infrastructure; sessions survive restarts |
+| `file` | One JSON file per session in `SESSION_FILE_DIR` | The PHP-style default; single node only, and concurrent requests from one browser can race on writes |
+| `sqlite` | A single SQLite file (`SESSION_SQLITE_FILE`) | Like `file` but transactional — no write races. Needs `npm install connect-sqlite3` |
+| `redis` | Redis at `REDIS_URL` | The production default once you run more than one instance |
+| `memcached` | `MEMCACHED_HOSTS` | Same multi-instance story as redis. Needs `npm install connect-memcached` |
+| `cookie` | The whole session lives in the signed cookie — no server storage at all | Scales infinitely, but: ~4KB cap, payload readable (not encrypted) by the user, no server-side revoke — "log out everywhere" is impossible — and expiry is enforced only by the browser, so a captured cookie stays valid |
+| `memory` | In-process | Local dev only: lost on restart, leaks, never shared |
+
+Two behaviours to know about:
+
+- **`NODE_ENV=test` always forces `memory`** (except `cookie`, which holds no server state) so
+  the test runner can exit cleanly — see the comment in `core/session.js`.
+- **`cookie` swaps the middleware itself** (`cookie-session` instead of `express-session`), and a
+  compat shim keeps `req.session.regenerate/destroy/save` working so controllers don't care
+  which one is active.
 
 ### JWT (API)
 
@@ -1172,7 +1195,8 @@ work correctly.
 - [ ] `storage/` writable by the app user
 - [ ] Tighten the CSP in `core/Application.js` (`contentSecurityPolicy` is off by default so CDN
       assets work out of the box — lock it down once you know your asset origins)
-- [ ] Persistent session store if you're on Postgres/Mongo (see §6)
+- [ ] `SESSION_STORE` fits the deployment: `db` (the default) is persistent on all three drivers;
+      switch to `redis` once you run more than one instance (see §12 "Session storage")
 
 ---
 

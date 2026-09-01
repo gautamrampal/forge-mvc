@@ -434,7 +434,6 @@ Honest list — these are **not** built:
 | **Service discovery** | Dynamic addressing beyond env vars | Kubernetes DNS, Consul |
 | **API versioning** | Breaking changes without breaking callers | Mount `/api/v1` and `/api/v2` route trees |
 | **Shared rate-limit store** | Correct limits across instances | `rate-limit-redis` ([§8](#8-rate-limiting)) |
-| **Shared session store for non-MySQL** | `APP_MODE=hybrid` on Postgres/Mongo across instances | `connect-pg-simple`, `connect-mongo` |
 | **Idempotency keys** | Safe retries on writes | An `Idempotency-Key` header + a dedupe table |
 | **Outbox pattern** | Guaranteed publish-after-commit | Transactional outbox table + relay |
 

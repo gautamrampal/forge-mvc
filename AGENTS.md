@@ -29,12 +29,13 @@ npm install
 cp .env.example .env
 ```
 
-Edit `.env` — at minimum `DB_*`, `SESSION_SECRET`, `JWT_SECRET`. Then pick the three switches:
+Edit `.env` — at minimum `DB_*`, `SESSION_SECRET`, `JWT_SECRET`. Then pick the switches:
 
 ```ini
 APP_MODE=hybrid     # mvc | api | hybrid
 DB_DRIVER=mysql     # mysql | postgres | mongodb
 VIEW_ENGINE=ejs     # ejs | tsx
+SESSION_STORE=db    # db | file | sqlite | redis | memcached | cookie | memory (see .env.example)
 ```
 
 Strip the bundled Users example down to a runnable skeleton, keeping the whole framework:

@@ -40,14 +40,16 @@ exports.login = async (req, res, next) => {
       return res.redirect('/login');
     }
 
+    // Capture the deep-link BEFORE regenerating — regenerate() replaces the session with an
+    // empty one, so reading it afterwards always yields the fallback.
+    const redirectTo = req.session.postLoginRedirect || '/users';
+
     // Regenerate before storing anything: a brand-new session id means a token an attacker
     // planted in the browser beforehand is now worthless.
     req.session.regenerate((err) => {
       if (err) return next(err);
 
       req.session.user = User.publicFields(user); // no password hash in the session
-      const redirectTo = req.session.postLoginRedirect || '/users';
-      delete req.session.postLoginRedirect;
 
       // save() before redirecting guarantees the session is persisted before the browser
       // issues the next request — otherwise a fast redirect can race the store write.

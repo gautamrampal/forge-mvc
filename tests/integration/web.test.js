@@ -37,6 +37,24 @@ test('a valid login starts a session', async () => {
   assert.match(res.text, /signer/, 'the navbar shows who is signed in');
 });
 
+test('login lands on the page the visitor originally asked for (postLoginRedirect)', async () => {
+  const user = await createUser({ username: 'deeplinker' });
+  const agent = request.agent(app);
+
+  const bounce = await agent.get('/users/create').expect(302);
+  assert.equal(bounce.headers.location, '/login');
+
+  const form = await agent.get('/login').expect(200);
+  const login = await agent
+    .post('/login')
+    .type('form')
+    .send({ _csrf: extractCsrf(form.text), username: user.username, password: DEFAULT_PASSWORD })
+    .expect(302);
+  // The deep-link must be captured BEFORE req.session.regenerate() wipes the session — reading
+  // it afterwards silently falls back to /users (a real bug this test now pins).
+  assert.equal(login.headers.location, '/users/create');
+});
+
 test('a wrong password is rejected without revealing whether the user exists', async () => {
   const user = await createUser({ username: 'realuser' });
   const { agent, csrfToken } = await webAgent(app, '/login');

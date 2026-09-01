@@ -85,7 +85,7 @@ You extend this rather than edit it. Broken into five groups:
 | `Application.js` | `createApp()` — the generic Express app described above |
 | `Model.js` | Base class: `find`, `findOne`, `findById`, `count`, `create`, `update`, `delete`, `paginate`, `raw` |
 | `Controller.js` | `respond()` / `fail()` — lets one action serve both HTML and JSON. **Not** a base class to extend |
-| `session.js` | Session middleware factory; returns MemoryStore under `NODE_ENV=test` so the runner can exit |
+| `session.js` | Session middleware factory; picks the backend from `SESSION_STORE` (db/file/sqlite/redis/memcached/cookie/memory); forces MemoryStore under `NODE_ENV=test` so the runner can exit |
 | `context.js` | `AsyncLocalStorage` — per-request correlation ID reachable from any depth without threading `req` |
 | `lifecycle.js` | Graceful shutdown: fail readiness → drain → close pool → exit |
 | `health.js` | `/health` (liveness) and `/ready` (readiness) routers |
@@ -290,13 +290,14 @@ Runtime output, gitignored: rotating logs under `storage/logs/`, uploads under t
 
 ## Configuration
 
-All behaviour is driven by `.env` — copy `.env.example` and edit. The three switches that change
+All behaviour is driven by `.env` — copy `.env.example` and edit. The switches that change
 the shape of the application:
 
 ```ini
 APP_MODE=hybrid     # mvc | api | hybrid
 DB_DRIVER=mysql     # mysql | postgres | mongodb
 VIEW_ENGINE=ejs     # ejs | tsx
+SESSION_STORE=db    # db | file | sqlite | redis | memcached | cookie | memory
 ```
 
 Every combination works without changing a controller.
