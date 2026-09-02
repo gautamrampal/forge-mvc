@@ -41,7 +41,7 @@ async function resetTestDb() {
 
   if (driver === 'mysql') {
     await db.query('SET FOREIGN_KEY_CHECKS = 0');
-    for (const table of ['users']) {
+    for (const table of ['users', 'products']) {
       await db.query(`TRUNCATE TABLE \`${table}\``);
     }
     await db.query('SET FOREIGN_KEY_CHECKS = 1');
@@ -49,13 +49,15 @@ async function resetTestDb() {
   }
 
   if (driver === 'postgres' || driver === 'postgresql') {
-    await db.query('TRUNCATE TABLE users RESTART IDENTITY CASCADE');
+    await db.query('TRUNCATE TABLE users, products RESTART IDENTITY CASCADE');
     return;
   }
 
   if (driver === 'mongodb') {
     const mongo = await db.connect();
-    await mongo.collection('users').deleteMany({});
+    for (const collection of ['users', 'products']) {
+      await mongo.collection(collection).deleteMany({});
+    }
   }
 }
 

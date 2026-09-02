@@ -1,0 +1,57 @@
+<h4 class="mb-3"><%= title %></h4>
+<div class="card"><div class="card-body">
+  <!-- One form for both create and edit: the action and the _method override switch on record.id.
+       Browsers can only send GET and POST, so method-override turns a POST carrying
+       _method=PUT into a PUT. See core/Application.js for why it reads the BODY, not the query. -->
+  <form method="POST" action="<%= record.id ? '/products/' + record.id : '/products' %>" novalidate>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <% if (record.id) { %><input type="hidden" name="_method" value="PUT"><% } %>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-4">
+        <label class="form-label">SKU *</label>
+        <input type="text" name="sku" class="form-control <%= formErrors.sku ? 'is-invalid' : '' %>"
+               value="<%= record.sku || '' %>" placeholder="WIDGET-01" required>
+        <% if (formErrors.sku) { %><div class="invalid-feedback d-block"><%= formErrors.sku %></div><% } %>
+        <div class="form-text">Capitals, numbers and hyphens only.</div>
+      </div>
+
+      <div class="col-12 col-md-8">
+        <label class="form-label">Name *</label>
+        <input type="text" name="name" class="form-control <%= formErrors.name ? 'is-invalid' : '' %>"
+               value="<%= record.name || '' %>" required>
+        <% if (formErrors.name) { %><div class="invalid-feedback d-block"><%= formErrors.name %></div><% } %>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Description</label>
+        <textarea name="description" rows="3"
+                  class="form-control <%= formErrors.description ? 'is-invalid' : '' %>"><%= record.description || '' %></textarea>
+        <% if (formErrors.description) { %><div class="invalid-feedback d-block"><%= formErrors.description %></div><% } %>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label class="form-label">Price (paise) *</label>
+        <input type="number" name="price_paise" min="0" step="1"
+               class="form-control <%= formErrors.price_paise ? 'is-invalid' : '' %>"
+               value="<%= record.price_paise != null ? record.price_paise : 0 %>" required>
+        <% if (formErrors.price_paise) { %><div class="invalid-feedback d-block"><%= formErrors.price_paise %></div><% } %>
+        <div class="form-text">Whole paise — 19999 means ₹199.99. Never a decimal.</div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <label class="form-label">Status *</label>
+        <select name="status" class="form-select <%= formErrors.status ? 'is-invalid' : '' %>">
+          <option value="active" <%= record.status === 'active' ? 'selected' : '' %>>Active</option>
+          <option value="inactive" <%= record.status === 'inactive' ? 'selected' : '' %>>Inactive</option>
+        </select>
+        <% if (formErrors.status) { %><div class="invalid-feedback d-block"><%= formErrors.status %></div><% } %>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex gap-2">
+      <button type="submit" class="btn btn-primary">Save</button>
+      <a href="<%= record.id ? '/products/' + record.id : '/products' %>" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div></div>

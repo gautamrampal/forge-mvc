@@ -126,7 +126,14 @@ test('every generated request actually reaches its route', async () => {
     }
     const res = await req;
 
-    assert.notEqual(res.status, 404, `${method} ${urlPath} did not match any route (404)`);
+    // "Did it reach a route?" is not the same question as "did it find a record?". Once the app
+    // has more than one resource, `:id` cannot be a valid id for all of them and a body shaped
+    // for one resource will not validate for another — both of which are legitimate 404/422
+    // answers from a route that matched. The terminal handler at the bottom of app/routes/api.js
+    // is the only 404 that means "no route matched", and it says so, so assert on that instead
+    // of on the bare status.
+    const noRouteMatched = res.status === 404 && /No API route matches/.test(res.body?.message || '');
+    assert.equal(noRouteMatched, false, `${method} ${urlPath} did not match any route`);
     assert.ok(res.status < 500, `${method} ${urlPath} returned ${res.status} — the generated request is malformed`);
   }
 });

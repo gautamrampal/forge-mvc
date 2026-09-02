@@ -1117,6 +1117,10 @@ You now have the language. The framework docs pick up from here:
 | Document | Read it for |
 |---|---|
 | [TUTORIAL-JS.md](./TUTORIAL-JS.md) | Node-specific essentials for PHP migrants — the runtime, the module system, and the 14 errors you'll actually hit |
+| [TUTORIAL-ASYNC.md](./TUTORIAL-ASYNC.md) | The long-form version of chapter 08 — promises, async/await, combinators, concurrency limits, and framework patterns |
+| [TUTORIAL-JS-ADVANCED.md](./TUTORIAL-JS-ADVANCED.md) | The long-form version of chapters 01–12 — prototypes, `this`, generators, Proxy, numbers, dates, JSON |
+| [TUTORIAL-NODE-RUNTIME.md](./TUTORIAL-NODE-RUNTIME.md) | The runtime beneath the language — event loop, streams, modules, threads |
+| [LEARNING-PATH.md](./LEARNING-PATH.md) | Every document in this repo, in reading order |
 | [TUTORIAL.md](./TUTORIAL.md) | Framework reference — databases, helpers, JWT, email, uploads, testing, deployment |
 | [TUTORIAL-EJS.md](./TUTORIAL-EJS.md) | Complete CRUD walkthrough with EJS templates |
 | [TUTORIAL-SOA.md](./TUTORIAL-SOA.md) | Running as a service — health probes, correlation IDs, graceful shutdown |

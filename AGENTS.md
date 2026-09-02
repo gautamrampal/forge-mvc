@@ -296,8 +296,16 @@ breaker, and correlation-ID propagation. See [TUTORIAL-SOA.md](./TUTORIAL-SOA.md
 | [PROJECT-STRUCTURE.md](./PROJECT-STRUCTURE.md) | deciding where a new file goes |
 | [TUTORIAL.md](./TUTORIAL.md) | framework reference — DB, helpers, JWT, mail, uploads, deployment |
 | [TUTORIAL-EJS.md](./TUTORIAL-EJS.md) / [TUTORIAL-TSX.md](./TUTORIAL-TSX.md) | full CRUD walkthrough for your view engine |
+| [TUTORIAL-CRUD.md](./TUTORIAL-CRUD.md) | adding a resource end to end — web + API from one model, 12 steps, verified |
 | [TUTORIAL-SOA.md](./TUTORIAL-SOA.md) | health probes, shutdown, service-to-service calls |
 | [TUTORIAL-JS.md](./TUTORIAL-JS.md) | Node/JS essentials for PHP migrants |
+| [TUTORIAL-ASYNC.md](./TUTORIAL-ASYNC.md) | promises, async/await, concurrency, and the async rules this framework enforces |
+| [TUTORIAL-NODE-RUNTIME.md](./TUTORIAL-NODE-RUNTIME.md) | event loop, streams, module cache, workers, handles — why runs hang and processes stall |
+| [TUTORIAL-JS-ADVANCED.md](./TUTORIAL-JS-ADVANCED.md) | prototypes, `this`, iterators, metaprogramming, numbers/dates/JSON traps |
+| [TUTORIAL-TESTING.md](./TUTORIAL-TESTING.md) | `node:test`, this repo's harness, mocks, coverage, diagnosing a hung run |
+| [TUTORIAL-SECURITY.md](./TUTORIAL-SECURITY.md) | injection, XSS, auth, CSRF, CORS, uploads, secrets — plus a pre-launch checklist |
+| [TUTORIAL-PERFORMANCE.md](./TUTORIAL-PERFORMANCE.md) | N+1, indexes, pagination depth, pool limits, profiling, load testing |
+| [LEARNING-PATH.md](./LEARNING-PATH.md) | the whole curriculum in reading order, and what is still unwritten |
 | [TUTORIAL-JS-ESSENTIALS.md](./TUTORIAL-JS-ESSENTIALS.md) | the standalone JavaScript course in `practice/` |
 
 ---

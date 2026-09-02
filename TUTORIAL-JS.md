@@ -706,6 +706,10 @@ for (const u of users) { await save(u); }
 
 # Part 3 — Async, the big one
 
+> **Want the full story?** [TUTORIAL-ASYNC.md](./TUTORIAL-ASYNC.md) covers this ground from
+> first principles — what a Promise *is*, the microtask queue, every combinator, concurrency
+> limits, and the framework patterns that depend on them. This part is the fast survey.
+
 ## 10. Callbacks, promises, async/await
 
 In PHP, `$rows = $db->query(...)` blocks and hands you rows. In Node, I/O never blocks — it
