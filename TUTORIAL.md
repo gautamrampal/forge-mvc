@@ -17,8 +17,16 @@ every project.
 | Document | Read it for |
 |---|---|
 | **[TUTORIAL-JS.md](./TUTORIAL-JS.md)** | **New to Node?** JavaScript + Node essentials, written for PHP developers — start here |
+| **[TUTORIAL-ASYNC.md](./TUTORIAL-ASYNC.md)** | **Async in depth** — promises from first principles, async/await, error handling, parallelism, and the framework patterns that depend on them |
+| **[TUTORIAL-NODE-RUNTIME.md](./TUTORIAL-NODE-RUNTIME.md)** | The Node runtime — event loop, streams, module cache, worker threads, handles |
+| **[TUTORIAL-JS-ADVANCED.md](./TUTORIAL-JS-ADVANCED.md)** | Advanced language — prototypes, `this`, iterators, metaprogramming, data traps |
+| **[TUTORIAL-TESTING.md](./TUTORIAL-TESTING.md)** | Testing in depth — `node:test`, the harness, mocks, coverage, E2E |
+| **[TUTORIAL-SECURITY.md](./TUTORIAL-SECURITY.md)** | Security — injection, XSS, auth, CSRF, uploads, secrets, pre-launch checklist |
+| **[TUTORIAL-PERFORMANCE.md](./TUTORIAL-PERFORMANCE.md)** | Performance — N+1, indexes, pagination, pool limits, profiling, load testing |
+| **[LEARNING-PATH.md](./LEARNING-PATH.md)** | The full curriculum in reading order |
 | **This file** | Framework reference — databases, helpers, JWT, email, uploads, testing, deployment |
 | **[TUTORIAL-EJS.md](./TUTORIAL-EJS.md)** | Complete CRUD walkthrough using **EJS templates** |
+| **[TUTORIAL-CRUD.md](./TUTORIAL-CRUD.md)** | Adding a new resource end to end — both route trees, with curl and test verification |
 | **[TUTORIAL-TSX.md](./TUTORIAL-TSX.md)** | The same walkthrough using **React components (TSX)** |
 | **[TUTORIAL-SOA.md](./TUTORIAL-SOA.md)** | Running as a **service** — graceful shutdown, health probes, correlation IDs, calling other services, Docker/Kubernetes |
 

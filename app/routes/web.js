@@ -17,9 +17,11 @@ const requireActiveUser = require('../middlewares/requireActiveUser');
 const preventSelfAction = require('../middlewares/preventSelfAction');
 
 const { loginRules, createUserRules, updateUserRules } = require('../validators/userValidators');
+const { createProductRules, updateProductRules } = require('../validators/productValidators');
 
 const AuthController = require('../controllers/web/AuthController');
 const UserController = require('../controllers/web/UserController');
+const ProductController = require('../controllers/web/ProductController');
 
 // --- Middleware that applies to every web request, in order --------------------------------
 router.use(createSessionMiddleware()); // 1. read/create the session from the cookie
@@ -51,5 +53,16 @@ router.get('/users/:id', UserController.show);
 router.get('/users/:id/edit', UserController.edit);
 router.put('/users/:id', updateUserRules, validate, UserController.update);
 router.delete('/users/:id', preventSelfAction('You cannot delete your own account.'), UserController.destroy);
+
+// --- Products CRUD ---------------------------------------------------------------------------
+// Same shape as Users, and the same ordering rule: '/products/create' is declared BEFORE
+// '/products/:id', or Express matches the parameterised route first with id="create".
+router.get('/products', ProductController.list);
+router.get('/products/create', ProductController.showCreate);
+router.post('/products', createProductRules, validate, ProductController.create);
+router.get('/products/:id', ProductController.detail);
+router.get('/products/:id/edit', ProductController.showEdit);
+router.put('/products/:id', updateProductRules, validate, ProductController.update);
+router.delete('/products/:id', ProductController.destroy);
 
 module.exports = router;

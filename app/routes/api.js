@@ -12,9 +12,11 @@ const validate = require('../../core/middlewares/validate');
 const preventSelfAction = require('../middlewares/preventSelfAction');
 
 const { createUserRules, updateUserRules } = require('../validators/userValidators');
+const { createProductRules, updateProductRules } = require('../validators/productValidators');
 
 const AuthController = require('../controllers/api/AuthController');
 const UserController = require('../controllers/api/UserController');
+const ProductApiController = require('../controllers/api/ProductController');
 
 router.use(markApi); // tells respond()/validate()/errorHandler to answer in JSON
 
@@ -33,6 +35,15 @@ router.delete(
   preventSelfAction('You cannot delete your own account.'),
   UserController.destroy
 );
+
+// --- Products ------------------------------------------------------------------------------
+// Mounted ABOVE the terminal 404 below (AGENTS.md rule 5) — anything declared after it is
+// unreachable. Every route carries requireJwt: the API tree has no session to fall back on.
+router.get('/products', requireJwt, ProductApiController.list);
+router.get('/products/:id', requireJwt, ProductApiController.detail);
+router.post('/products', requireJwt, createProductRules, validate, ProductApiController.create);
+router.put('/products/:id', requireJwt, updateProductRules, validate, ProductApiController.update);
+router.delete('/products/:id', requireJwt, ProductApiController.destroy);
 
 // Terminal 404 for anything under /api that didn't match above.
 //

@@ -7,20 +7,28 @@ module.exports = async () => {
   require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
 
   process.env.NODE_ENV = 'test';
-  process.env.DB_NAME = process.env.E2E_DB_NAME || 'forge_mvc_e2e';
+
+  // Point at the E2E database via TEST_DB_NAME, not DB_NAME. tests/helpers/db.js requires
+  // tests/helpers/env.js, which rewrites DB_NAME to TEST_DB_NAME ?? `${DB_NAME}_test` — so
+  // setting DB_NAME here would be silently overwritten, and this setup would migrate, truncate
+  // and seed the *unit-test* database while Playwright's webServer pointed the app at an E2E
+  // database that was never created.
+  const e2eDbName = process.env.E2E_DB_NAME || 'forge_mvc_e2e';
+  process.env.TEST_DB_NAME = e2eDbName;
+  process.env.TEST_MONGO_DB_NAME = e2eDbName;
 
   const { migrateTestDb, resetTestDb } = require('../helpers/db');
   await migrateTestDb();
   await resetTestDb();
 
-  // Seed the fixture account the specs sign in as.
-  const { hashPassword } = require('../../core/helpers/hash');
+  // Seed the fixture account the specs sign in as. Going through User.createWithPassword (rather
+  // than User.create with hand-written columns) means this cannot drift from the schema or from
+  // the way production hashes a password — the model is the only path either can change through.
   const User = require('../../app/models/User');
-  await User.create({
-    name: 'E2E User',
-    email: 'e2e@forge.test',
-    password_hash: await hashPassword('E2E@12345'),
-    role: 'admin',
+  await User.createWithPassword({
+    username: process.env.E2E_USERNAME || 'e2e',
+    password: process.env.E2E_PASSWORD || 'E2E@12345',
+    status: 'active',
   });
 
   const db = require('../../core/db');

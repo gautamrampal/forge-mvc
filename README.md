@@ -36,8 +36,16 @@ curl -X POST http://localhost:5000/api/auth/login \
 | **[AGENTS.md](./AGENTS.md)** | **Driving this framework with an AI coding agent** — setup commands, hard rules, the exact sequence for adding a feature, and how to verify |
 | **[TUTORIAL-JS-ESSENTIALS.md](./TUTORIAL-JS-ESSENTIALS.md)** | **New to JavaScript?** A standalone practice course — 12 runnable chapters plus 39 self-checking exercises in `practice/`. Needs no database and no server. Start here |
 | **[TUTORIAL-JS.md](./TUTORIAL-JS.md)** | **Coming from PHP?** JavaScript + Node essentials with runnable examples, the async model, and the 14 errors you'll actually hit |
+| **[TUTORIAL-ASYNC.md](./TUTORIAL-ASYNC.md)** | **Async, in depth** — from what a Promise *is* to `Promise.all`, concurrency limits, and why every controller here needs a `try/catch`. Every timing and crash claim measured |
+| **[TUTORIAL-NODE-RUNTIME.md](./TUTORIAL-NODE-RUNTIME.md)** | **The runtime** — event loop phases, streams and backpressure, the module cache, worker threads, and the handles that keep a process alive |
+| **[TUTORIAL-JS-ADVANCED.md](./TUTORIAL-JS-ADVANCED.md)** | **The language, deeper** — prototypes, the five `this` rules, generators, Proxy, and the number/date/JSON traps that corrupt data silently |
+| **[TUTORIAL-TESTING.md](./TUTORIAL-TESTING.md)** | **Testing** — `node:test` with nothing installed, this repo's harness explained, mocks and fake timers, coverage, Playwright, and why a run hangs |
+| **[TUTORIAL-SECURITY.md](./TUTORIAL-SECURITY.md)** | **Security audit** — injection, XSS, IDOR, CSRF, CORS, uploads, secrets and single-thread DoS, with a pre-launch checklist |
+| **[TUTORIAL-PERFORMANCE.md](./TUTORIAL-PERFORMANCE.md)** | **Performance** — the four things that are actually slow, measured on this repo: N+1 (61ms→1ms), indexes (68×), deep `OFFSET` (69×), and the pool ceiling |
+| **[LEARNING-PATH.md](./LEARNING-PATH.md)** | **Where do I start?** All fourteen documents in reading order, by where you're coming from — plus the gaps still to be written |
 | **[TUTORIAL.md](./TUTORIAL.md)** | Framework reference — databases, helpers, JWT, email, uploads, testing, Playwright, Postman, deployment, and a "gotchas" section covering nine real bugs found while building this |
 | **[TUTORIAL-EJS.md](./TUTORIAL-EJS.md)** | Complete CRUD walkthrough using **EJS templates** |
+| **[TUTORIAL-CRUD.md](./TUTORIAL-CRUD.md)** | **Add a resource, web *and* API** — 12 steps from empty table to 20 passing tests, serving HTML pages and a JSON REST API from one model |
 | **[TUTORIAL-TSX.md](./TUTORIAL-TSX.md)** | The same walkthrough using **React components (TSX)** |
 | **[TUTORIAL-SOA.md](./TUTORIAL-SOA.md)** | Running as a **service** — graceful shutdown, health probes, correlation IDs, resilient service-to-service calls, Docker/Kubernetes |
 
